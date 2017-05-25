@@ -1,0 +1,10 @@
+# Environment Config for secrets and config variables
+# Only invited collaborators will be able to see the .env values
+# Reference these in the code with process.env.SECRET
+
+BEEMINDER_CLIENT_ID=your_beeminder_id
+AUTH_REDIRECT_URI=your_full_authentication_redirect_uri_registered_at_beeminder
+DB_USER=your_database_user_if_any
+DB_PASS=your_database_password_if_any
+
+# Note: .env is a shell file so there can't be spaces around '='
