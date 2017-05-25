@@ -113,6 +113,19 @@ app.get("/connect", (request, response) => {
   response.redirect('/')
 })
 
+// Endpoint to process request from Beeminder when user demands
+// de-authorization of the app
+app.get("/disconnect", (request, response) => {
+  if(typeof request.query.access_token != 'undefined') {
+    User.findOne({where: {access_token: request.query.access_token}})
+      .then( (user) => {
+        UserGoal.destroy({where: {user_id:user.id}})
+        User.destroy({where: {id:user.id}})
+      })
+  }
+  response.sendStatus(200)
+})
+
 // JSON endpoint to check for successful user authorization and retrieve current
 // links in the database
 app.get("/get-links", (request, response) => {
