@@ -7,4 +7,11 @@ AUTH_REDIRECT_URI=your_full_authentication_redirect_uri_registered_at_beeminder
 DB_USER=your_database_user_if_any
 DB_PASS=your_database_password_if_any
 
+# Application-specific parameters
+# Default connection name, that will be used for your application
+DEFAULT_CONNECTION_NAME=codecombat
+
+# Your application name
+APP_NAME=Codeminder
+
 # Note: .env is a shell file so there can't be spaces around '='
