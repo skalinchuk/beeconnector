@@ -6,6 +6,7 @@ BEEMINDER_CLIENT_ID=your_beeminder_id
 AUTH_REDIRECT_URI=your_full_authentication_redirect_uri_registered_at_beeminder
 DB_USER=your_database_user_if_any
 DB_PASS=your_database_password_if_any
+SESSION_SECRET=your_session_secret
 
 # Application-specific parameters
 # Default connection name, that will be used for your application
