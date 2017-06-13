@@ -47,7 +47,7 @@ var sequelize = new Sequelize('database', process.env.DB_USER,
 
 // Setting up session parameters
 app.use(session({
-  secret: 'beeminder is great',
+  secret: process.env.SESSION_SECRET,
   store: new SequelizeStore({ db: sequelize }),
   saveUninitialized: false,
   resave: false,
@@ -140,9 +140,9 @@ app.get("/get-links", (request, response) => {
   } else {
   
     // Only users redirected from Beeminder or users w/ correct sessions allowed
-    if ((typeof request.session.username == 'undefined' || 
-         typeof request.session.access_token == 'undefined') && 
-         typeof request.session.userId == 'undefined')
+    if ((typeof request.session.username == 'undefined' || request.session.username == null ||
+         typeof request.session.access_token == 'undefined' || request.session.access_token == null) && 
+         (typeof request.session.userId == 'undefined' || request.session.userId == null))
       response.sendStatus(404)
 
     // Checking whether it's a new login
@@ -197,6 +197,7 @@ app.get("/get-links", (request, response) => {
         }).catch((error) => {
           response.status(404)
         })
+      response.status(400)
     }
   }
 })
