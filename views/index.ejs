@@ -19,7 +19,9 @@
   integrity=
        "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
   crossorigin="anonymous">
-
+<link rel="stylesheet" 
+  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
 <!-- Compiled and minified jQuery, Bootstrap, AngularJS -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" 
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" 
@@ -33,15 +35,19 @@
   src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js">
 </script>
 <link rel="stylesheet" href="/style.css">
-
+<script>
+  var beeLink = "https://www.beeminder.com/apps/authorize?client_id=<%= BEEMINDER_CLIENT_ID %>&redirect_uri=<%= AUTH_REDIRECT_URI %>&response_type=token";
+</script>
 </head>
-<body>
-
-<div class="col-xs-12 col-lg-10 col-lg-offset-1" ng-controller="goalConnect">
+<body ng-controller="goalConnect">
+<loader ng-if="loading">
+    <i class="fa fa-spin fa-spinner" style="font-size: 10vh;"></i>
+</loader>
+<div class="col-xs-12 col-lg-10 col-lg-offset-1" ng-if="!loading">
 <header class="hidden" ng-class="currentStage ? 'visible' : 'hidden' ">
   <h1 style="text-align: center;">
     Beeminder + <%= CONNECTIONS[DEFAULT_CONNECTION]['name'] %> Integration
-    <a href="/logout" class="btn btn-default" 
+    <a ng-click="logout()" class="btn btn-default" 
        style="position: absolute; right: 15px;" 
        ng-if="currentStage != 'initialScreen'">Log out</a>
   </h1>
@@ -76,10 +82,9 @@
     <div style="margin-bottom: 40px;">&nbsp;</div>
     <p style="text-align: center">
       In order to start working with this app, please<br />
-      <a class="btn btn-primary" href=
-"https://www.beeminder.com/apps/authorize?client_id=<%= BEEMINDER_CLIENT_ID %>&redirect_uri=<%= AUTH_REDIRECT_URI %>&response_type=token">
+      <div class="btn btn-primary" ng-click="loginWithBeeminder()">
         Log in with your Beeminder account
-      </a>
+      </div>
     </p>
     <p class="hidden" ng-class="initialScreenError ? 'error' : 'hidden'">
       {{initialScreenError.error_description}}

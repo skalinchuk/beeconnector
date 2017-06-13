@@ -17,6 +17,7 @@ function goalConnect($scope, $http) {
   $scope.newConnection = {};
   $scope.initialScreenError = null;
   $scope.creatingBeeminderGoal = false;
+  $scope.loading = true;
   
   function init () {
     
@@ -24,6 +25,7 @@ function goalConnect($scope, $http) {
       method: 'get',
       url: '/get-links'
     }).then( (result) => {
+      $scope.loading = false;
       $scope.initialScreenError = null;
       $scope.goals = result.data.goals;
       $scope.connections = result.data.connections;
@@ -33,23 +35,34 @@ function goalConnect($scope, $http) {
       $scope.newConnection = {};
       $scope.newBeeGoal = {};
     }, (result) => {
-      if(typeof result.data.error != 'undefined'){
-        $scope.initialScreenError = {
-          error: result.data.error, 
-          error_description: result.data.error_description
-        }
-      } else {
+      $scope.loading = false;
+      if (result.data === null || typeof result.data.error !== 'undefined') {
         if (result.status != 404)
           $scope.initialScreenError = {
             error: 'Application error', 
             error_description: result.statusText
           }
+      } else {
+        $scope.initialScreenError = {
+          error: result.data.error, 
+          error_description: result.data.error_description
+        }
       }
     })
   }
   
   init();
   
+  $scope.loginWithBeeminder = () => {
+    $scope.loading=true;
+    window.location=beeLink;
+  }
+
+  $scope.logout = () => {
+    $scope.loading=true;
+    window.location='/logout';
+  }
+
   $scope.toggleCreateBeeminderGoal = () => {
     $scope.creatingBeeminderGoal = !$scope.creatingBeeminderGoal
     if($scope.creatingBeeminderGoal && 
