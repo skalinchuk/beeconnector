@@ -197,7 +197,6 @@ app.get("/get-links", (request, response) => {
         }).catch((error) => {
           response.status(404)
         })
-      response.status(400)
     }
   }
 })
